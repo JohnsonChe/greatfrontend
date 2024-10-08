@@ -18,6 +18,7 @@ export default function ProductDetails() {
     description,
     rating,
     colors,
+    colorsInStock,
     selectedColor,
     selectedSize,
     selectedQuantity,
@@ -50,6 +51,7 @@ export default function ProductDetails() {
         />
         <ProductControls
           colors={colors}
+          colorsInStock={colorsInStock}
           selectedColor={selectedColor}
           selectedSize={selectedSize}
           selectedQuantity={selectedQuantity}

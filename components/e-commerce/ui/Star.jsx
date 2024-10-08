@@ -1,8 +1,9 @@
-const Star = ({ filled, halfFilled }) => {
+const Star = ({ filled, halfFilled, className }) => {
   return filled ? (
     <svg
       width="20"
       height="20"
+      className={className}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
@@ -22,6 +23,7 @@ const Star = ({ filled, halfFilled }) => {
     <svg
       width="20"
       height="20"
+      className={className}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
@@ -50,6 +52,7 @@ const Star = ({ filled, halfFilled }) => {
     <svg
       width="20"
       height="20"
+      className={className}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">

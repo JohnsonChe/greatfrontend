@@ -7,6 +7,7 @@ export default async function LandingPage() {
     'https://www.greatfrontend.com/api/projects/challenges/e-commerce/products/voyager-hoodie'
   )
   const data: ProductDetailsType = await response.json()
+  console.log('data', data)
 
   return (
     <>

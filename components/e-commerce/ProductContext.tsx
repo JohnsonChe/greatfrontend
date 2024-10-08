@@ -16,17 +16,19 @@ interface ProductContextProviderProps {
 }
 
 export interface ProductContextProviderValueType {
+  productId: string
   description: string
   name: string
   rating: number
   reviews: number
   colors: colors
+  colorsInStock: string[]
   info: info[]
-  sizes: size[]
+  sizes: size[] | null
   selectedColor: string
   setColor: React.Dispatch<React.SetStateAction<string>>
-  selectedSize: string
-  setSize: React.Dispatch<React.SetStateAction<string>>
+  selectedSize: string | number | null
+  setSize: React.Dispatch<React.SetStateAction<string | number | null>>
   selectedQuantity: number
   setQuantity: React.Dispatch<React.SetStateAction<number>>
   selectedPicture: number
@@ -47,7 +49,7 @@ export const useProductContext = () => useContext(ProductContext)
 export default function ProductContextProvider({ data, children }: ProductContextProviderProps) {
   const { setCartItems } = useCartContext() as CartContextType
   const {
-    product_id,
+    product_id: productId,
     name,
     description,
     category,
@@ -64,7 +66,7 @@ export default function ProductContextProvider({ data, children }: ProductContex
     sold
   } = useMemo(() => data, [data])
   const [selectedColor, setColor] = useState<string>(colors[0])
-  const [selectedSize, setSize] = useState<string>(sizes[0])
+  const [selectedSize, setSize] = useState<string | number | null>(sizes[0] || null)
   const [selectedQuantity, setQuantity] = useState<number>(1)
   const [selectedPicture, setSelectedPicture] = useState<number>(0)
 
@@ -96,9 +98,22 @@ export default function ProductContextProvider({ data, children }: ProductContex
     [inventory, selectedColor]
   )
 
+  const colorsInStock = useMemo(
+    () =>
+      inventory.reduce((colorsInStock: colors, sku: InventoryItem) => {
+        if (sku.size === selectedSize && sku.stock > 0) {
+          colorsInStock.push(sku.color)
+        }
+        return colorsInStock
+      }, []),
+    [selectedSize]
+  )
+
+  console.log('🚀 ~ inventory.reduce ~ selectedSize:', selectedSize)
+  console.log('🚀 ~ ProductContextProvider ~ colorsInStock:', colorsInStock)
   const addToCartHandler = () => {
     const cartItem: cartItemType = {
-      productId: product_id,
+      productId,
       sku: currentSelectedSku,
       quantity: selectedQuantity
     }
@@ -120,11 +135,13 @@ export default function ProductContextProvider({ data, children }: ProductContex
 
   const value: ProductContextProviderValueType = useMemo(() => {
     return {
+      productId,
       description,
       name,
       rating,
       reviews,
       colors,
+      colorsInStock,
       info,
       sizes,
       selectedColor,
@@ -145,11 +162,13 @@ export default function ProductContextProvider({ data, children }: ProductContex
       addToCartHandler
     }
   }, [
+    productId,
     description,
     name,
     rating,
     reviews,
     colors,
+    colorsInStock,
     info,
     sizes,
     selectedColor,

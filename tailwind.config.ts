@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-
+const percentageWidth = require('tailwindcss-percentage-width')
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -59,6 +59,8 @@ const config: Config = {
       'lg': '1024px'
     }
   },
-  plugins: [],
+  plugins: [
+    percentageWidth
+  ],
 };
 export default config;

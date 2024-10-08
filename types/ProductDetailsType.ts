@@ -46,7 +46,7 @@ export type description = string[]
 
 export type InventoryItem = {
   sku: string
-  color: Partial<image>
+  color: string
   size: size
   list_price: number
   discount: Boolean | null
@@ -56,7 +56,7 @@ export type InventoryItem = {
   stock: number
 }
 
-export type size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+export type size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | number
 
 export type PriceRange = {
   highest: number

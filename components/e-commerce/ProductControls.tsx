@@ -6,20 +6,22 @@ import SubmitButton from './SubmitButton'
 
 interface ProductControlsProps {
   colors: string[]
+  colorsInStock: string[]
   setColor: React.Dispatch<React.SetStateAction<string>>
-  setSize: React.Dispatch<React.SetStateAction<string>>
+  setSize: React.Dispatch<React.SetStateAction<string | number | null>>
   setQuantity: React.Dispatch<React.SetStateAction<number>>
   currItemStock: number
   selectedColor: string
-  selectedSize: string
+  selectedSize: string | number | null
   selectedQuantity: number
-  sizeInventory: string[]
-  sizes: size[]
+  sizeInventory: (string | number)[]
+  sizes: size[] | null
   addToCartHandler: () => void
 }
 
 export default function ProductControls({
   colors,
+  colorsInStock,
   setColor,
   setSize,
   setQuantity,
@@ -41,7 +43,7 @@ export default function ProductControls({
             color={color}
             selectedColor={selectedColor}
             onClick={setColor}
-            outOfStock={currItemStock === 0}
+            outOfStock={!colorsInStock.includes(color)}
           />
         ))}
       </div>

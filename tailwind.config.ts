@@ -56,7 +56,8 @@ const config: Config = {
       'xs': '320px',
       'sm': '340px',
       'md': '768px',
-      'lg': '1024px'
+      'lg': '1024px',
+      'xl': '1440px'
     }
   },
   plugins: [

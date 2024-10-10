@@ -1,8 +1,6 @@
-import Link from 'next/link'
 import Star from '@components/e-commerce/ui/Star'
 import Reviews from './Reviews'
-import clsx from 'clsx'
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import RatingsDisplay from './RatingsDisplay'
 

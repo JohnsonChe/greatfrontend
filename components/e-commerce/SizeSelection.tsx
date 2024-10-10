@@ -31,7 +31,7 @@ export default function SizeSelection({
           onClick={() => onClick(value)}
           disabled={!sizeInventory.includes(value)}
           className={clsx(
-            'w-16 py-3 px-[22.5px] border rounded-lg',
+            'w-16 py-3 px-[22.5px] border rounded-lg flex justify-center',
             selectedSize === value ? 'border-indigo-700 border-2' : 'border-neutral-200',
             !sizeInventory.includes(value) && 'border-none bg-neutral-100 text-neutral-400',
             'hover:bg-neutral-50'

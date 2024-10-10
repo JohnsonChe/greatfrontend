@@ -1,6 +1,6 @@
 export default function FooterNav() {
   return (
-    <div className='flex flex-col lg:flex-row lg:justify-between gap-8 lg:min-w-[1245px]'>
+    <div className='flex flex-col lg:flex-row lg:justify-between gap-8 lg:w-full'>
       <div className='flex flex-col gap-6 md:w-[320px]'>
         <img
           src='https://vaqybtnqyonvlwtskzmv.supabase.co/storage/v1/object/public/e-commerce-track-images/logo.svg'

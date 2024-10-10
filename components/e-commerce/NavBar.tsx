@@ -4,6 +4,8 @@ import { RiMenuLine, RiCloseLine } from 'react-icons/ri'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useCartContext, CartContextType } from './CartContext'
+import Link from 'next/link'
+import ProductGrid from '@components/ProductGrid'
 
 const links = [
   {
@@ -12,7 +14,7 @@ const links = [
   },
   {
     name: 'Latest arrivals',
-    href: '#'
+    href: '/e-commerce'
   }
 ]
 
@@ -20,7 +22,7 @@ export default function NavBar() {
   const { itemsInCart } = useCartContext() as CartContextType
   const [isDrawerOpen, setDrawer] = useState(false)
   return (
-    <nav className='flex py-4.5 px-4 gap-4 items-center md:px-8 md:py-4.5 lg:px-28 lg:py-4 lg:gap-24'>
+    <nav className='flex w-full py-4.5 px-4 gap-4 items-center md:px-4 lg:px-24 lg:py-4 lg:gap-24 lg:w-[1024px] xl:px-24 xl:w-[1418px]'>
       <ol className='grow lg:flex-none'>
         <a href='/e-commerce'>
           <img
@@ -30,9 +32,9 @@ export default function NavBar() {
       </ol>
       <ol className='hidden lg:flex lg:grow lg:gap-8 text-grey'>
         {links.map((link, index) => (
-          <a href={link.href} key={index}>
+          <Link href={link.href} key={link.href}>
             {link.name}
-          </a>
+          </Link>
         ))}
       </ol>
       <ol className='flex-none text-grey'>

@@ -1,6 +1,6 @@
 type ColorKey = 'black' | 'orange' | 'beige' | 'yellow' | 'blue' | 'green' | 'white' | 'brown';
 
-export type ColorMap = Record<ColorKey, string>;
+export type ColorMap = Record<string, string>;
 
 export type Product = {
     category: {

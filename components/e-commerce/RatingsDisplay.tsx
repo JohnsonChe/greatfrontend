@@ -4,7 +4,7 @@ import { Stars } from './ProductDescription'
 interface RatingsDisplayProps {
   rating: number
   reviews: number
-  setShowReviews?: React.Dispatch<React.SetStateAction<boolean>>
+  setShowReviews: React.Dispatch<React.SetStateAction<boolean>>
   modalView: boolean
 }
 
@@ -31,7 +31,7 @@ export default function RatingsDisplay({
             Based on {reviews} reviews
           </span>
         ) : (
-          <Link onClick={() => setShowReviews?.(true)} href=''>
+          <Link onClick={() => setShowReviews(true)} href=''>
             {`See all ${reviews} reviews`}
           </Link>
         )}

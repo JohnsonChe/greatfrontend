@@ -41,7 +41,7 @@ export default function Newsletter() {
     }
   }
   return (
-    <div className='flex xs:flex-col lg:flex-row lg:items-center lg:justify-between lg:min-w-[1245px] gap-8'>
+    <div className='flex xs:flex-col lg:flex-row lg:items-center lg:justify-between lg:w-full gap-8'>
       <div className='flex flex-col gap-2'>
         <h3 className='font-semibold text-xl'>Join our newsletter</h3>
         <span className='text-neutral-600'>
@@ -56,7 +56,6 @@ export default function Newsletter() {
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={async (e) => {
               if (e.code === 'Enter') {
-                console.log('Enter Key Clicked!')
                 await subscribeNewsletterHandler()
               }
             }}

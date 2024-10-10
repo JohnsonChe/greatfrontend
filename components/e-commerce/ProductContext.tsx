@@ -109,8 +109,6 @@ export default function ProductContextProvider({ data, children }: ProductContex
     [selectedSize]
   )
 
-  console.log('🚀 ~ inventory.reduce ~ selectedSize:', selectedSize)
-  console.log('🚀 ~ ProductContextProvider ~ colorsInStock:', colorsInStock)
   const addToCartHandler = () => {
     const cartItem: cartItemType = {
       productId,

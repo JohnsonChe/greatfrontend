@@ -1,6 +1,6 @@
 import ColorSwatches from './ColorSwatches'
 import SizeSelection from './SizeSelection'
-import { colors, size } from '../../types/ProductDetailsType'
+import { size } from '../../types/ProductDetailsType'
 import QuantitySelection from './QuantitySelection'
 import SubmitButton from './SubmitButton'
 

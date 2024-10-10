@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { image } from '../../types/ProductDetailsType'
 
 interface ProductGalleryProps {
@@ -13,13 +12,13 @@ export default function ProductGallery({
   setSelectedPicture
 }: ProductGalleryProps) {
   return (
-    <div className='flex flex-col gap-6'>
+    <div className='flex flex-col gap-6 overflow-hidden lg:max-w-[494px] xl:max-w-[592px]'>
       {images.length > 0 ? (
         <>
           <img
             src={images[selectedPicture].image_url || ''}
             loading='lazy'
-            className='h-[400px] md:h-[800px] lg:w-[592px] w-full object-cover rounded-xl'
+            className='h-[400px] md:h-[800px] lg:w-[494px] xl:w-[592px] w-full object-cover rounded-xl'
           />
           <div className='flex overflow-x-auto gap-4 lg:w-[592px]'>
             {images.map(({ image_url }, index) => (

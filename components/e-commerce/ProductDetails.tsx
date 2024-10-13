@@ -4,6 +4,7 @@ import ProductDescription from './ProductDescription'
 import ProductControls from './ProductControls'
 import Accordian from './Accordian'
 import { useProductContext, ProductContextProviderValueType } from './ProductContext'
+import ProductSpecifications from './ProductSpecifications'
 
 export default function ProductDetails() {
   const {
@@ -33,38 +34,41 @@ export default function ProductDetails() {
   } = useProductContext() as ProductContextProviderValueType
 
   return (
-    <div className='flex flex-col justify-center lg:flex-row gap-[2.625rem]'>
-      <ProductGallery
-        images={imagesBySelectedColor}
-        selectedPicture={selectedPicture}
-        setSelectedPicture={setSelectedPicture}
-      />
-      <div className='lg:w-[592px]'>
-        <ProductDescription
-          name={name}
-          listPrice={currItemListPrice}
-          salePrice={currItemSalePrice}
-          discountPercentage={currItemDiscountPercentage}
-          rating={Number(rating.toFixed(1))}
-          reviews={reviews}
-          description={description}
+    <div>
+      <div className='flex flex-col justify-center lg:flex-row gap-[2.625rem]'>
+        <ProductGallery
+          images={imagesBySelectedColor}
+          selectedPicture={selectedPicture}
+          setSelectedPicture={setSelectedPicture}
         />
-        <ProductControls
-          colors={colors}
-          colorsInStock={colorsInStock}
-          selectedColor={selectedColor}
-          selectedSize={selectedSize}
-          selectedQuantity={selectedQuantity}
-          setQuantity={setQuantity}
-          setColor={setColor}
-          setSize={setSize}
-          currItemStock={currentItemStock}
-          sizeInventory={sizesInStock}
-          sizes={sizes}
-          addToCartHandler={addToCartHandler}
-        />
-        <Accordian info={info} />
+        <div className='lg:w-[592px]'>
+          <ProductDescription
+            name={name}
+            listPrice={currItemListPrice}
+            salePrice={currItemSalePrice}
+            discountPercentage={currItemDiscountPercentage}
+            rating={Number(rating.toFixed(1))}
+            reviews={reviews}
+            description={description}
+          />
+          <ProductControls
+            colors={colors}
+            colorsInStock={colorsInStock}
+            selectedColor={selectedColor}
+            selectedSize={selectedSize}
+            selectedQuantity={selectedQuantity}
+            setQuantity={setQuantity}
+            setColor={setColor}
+            setSize={setSize}
+            currItemStock={currentItemStock}
+            sizeInventory={sizesInStock}
+            sizes={sizes}
+            addToCartHandler={addToCartHandler}
+          />
+          <Accordian info={info} />
+        </div>
       </div>
+      <ProductSpecifications />
     </div>
   )
 }

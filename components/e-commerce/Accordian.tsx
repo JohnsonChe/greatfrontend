@@ -18,7 +18,7 @@ export default function Accordian({ info }: AccordianProps) {
   const [accordionState, setAccordianState] = useState(accordionKeys)
 
   return (
-    <div className='w-full mt-10'>
+    <div className='w-full mt-10 pb-8'>
       {info.map(({ title, description }, index) => (
         <div
           className='flex flex-col border-b border-b-neutral-200 py-6 cursor-pointer'

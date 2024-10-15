@@ -2,6 +2,7 @@ import ProductDetails from '../../../components/e-commerce/ProductDetails'
 import { ProductDetailsType } from '../../../types/ProductDetailsType'
 import ProductContextProvider from '@components/e-commerce/ProductContext'
 import ProductGrid from '@components/ProductGrid'
+import StoreFront from '@components/e-commerce/pages/StoreFront'
 
 export default async function LandingPage() {
   const response = await fetch(
@@ -12,7 +13,8 @@ export default async function LandingPage() {
   return (
     <>
       <ProductContextProvider data={data}>
-        <ProductGrid />
+        {/* <ProductGrid /> */}
+        <StoreFront />
       </ProductContextProvider>
     </>
   )

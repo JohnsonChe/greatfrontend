@@ -14,7 +14,7 @@ const links = [
   },
   {
     name: 'Latest arrivals',
-    href: '/e-commerce'
+    href: '/e-commerce/latest'
   }
 ]
 

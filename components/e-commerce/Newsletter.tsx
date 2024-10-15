@@ -69,7 +69,7 @@ export default function Newsletter() {
           )}
         </div>
         <button
-          className='border bg-indigo-700 text-white py-2.5 px-3.5 md:px-4 rounded-lg max-h-[46px]'
+          className='border bg-indigo-700 text-white py-2.5 px-3.5 md:px-4 rounded-lg max-h-[46px] hover:bg-indigo-800'
           onClick={subscribeNewsletterHandler}>
           Subscribe
         </button>

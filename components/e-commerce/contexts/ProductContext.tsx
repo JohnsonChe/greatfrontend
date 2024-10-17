@@ -7,11 +7,11 @@ import {
   image,
   size,
   info
-} from '../../types/ProductDetailsType'
-import { useCartContext, cartItemType, CartContextType } from './CartContext'
+} from '../../../types/ProductDetailsType'
+import { useCartContext, cartItemType, CartContextType } from '../CartContext'
 
 interface ProductContextProviderProps {
-  data: ProductDetailsType
+  data: ProductDetailsType | null
   children: React.ReactNode
 }
 
@@ -64,7 +64,7 @@ export default function ProductContextProvider({ data, children }: ProductContex
     reviews,
     sizes,
     sold
-  } = useMemo(() => data, [data])
+  } = useMemo(() => data!, [data])
   const [selectedColor, setColor] = useState<string>(colors[0])
   const [selectedSize, setSize] = useState<string | number | null>(sizes[0] || null)
   const [selectedQuantity, setQuantity] = useState<number>(1)

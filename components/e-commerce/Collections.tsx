@@ -1,9 +1,15 @@
 'use client'
 import clsx from 'clsx'
 import useFetchCollections from '../../utils/useFetchCollections'
+import {
+  useProductFilterContext,
+  ProductFilterContextProviderValueType
+} from './contexts/ProductFilterContext'
+import Link from 'next/link'
 
 export default function Collections() {
   const { collections } = useFetchCollections()
+  const { filterOptionHandler } = useProductFilterContext() as ProductFilterContextProviderValueType
 
   return (
     <div className='flex flex-col gap-8'>
@@ -11,8 +17,8 @@ export default function Collections() {
       <div className='grid xs:grid-rows-4 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 gap-7'>
         {collections &&
           collections.map((collection, index) => (
-            <div
-              key={index}
+            <Link
+              href='/e-commerce/products'
               className={clsx(
                 index === 0 && 'xs:row-span-2 lg:row-span-2 lg:col-span-2',
                 index === 1 && 'lg:col-span-2',
@@ -25,10 +31,16 @@ export default function Collections() {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
-              }}>
-              <label className='font-extralight text-sm'>{collection.name}</label>
-              <label>{collection.description}</label>
-            </div>
+              }}
+              onClick={() => {
+                filterOptionHandler('collection', collection.collection_id)
+              }}
+              key={index}>
+              <div>
+                <label className='font-extralight text-sm'>{collection.name}</label>
+                <label>{collection.description}</label>
+              </div>
+            </Link>
           ))}
       </div>
     </div>

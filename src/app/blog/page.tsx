@@ -4,8 +4,7 @@ import Collections from '@components/e-commerce/Collections'
 export default function Blog() {
   return (
     <>
-      {/* <BlogCard /> */}
-      <Collections />
+      <BlogCard />
     </>
   )
 }

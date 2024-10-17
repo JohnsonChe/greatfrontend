@@ -1,19 +1,44 @@
 import clsx from 'clsx'
+import { ColorMap } from '../../types/Product'
 
 interface ColorSwatchesProps {
   color: string
-  selectedColor: string
+  selectedColor: string[] | string
   onClick: (color: string) => void
-  outOfStock: boolean
+  outOfStock?: boolean
+  swatchSize?: number
 }
 
-const ColorSwatches = ({ color, selectedColor, onClick, outOfStock }: ColorSwatchesProps) => {
+export const colorMap: ColorMap = {
+  white: '#FFFFFF',
+  black: '#171717',
+  red: '#DC2626',
+  orange: '#EA580C',
+  beige: '#D2B08A',
+  yellow: '#CA8A04',
+  blue: '#4338CA',
+  green: '#059669',
+  pink: '#DB2777',
+  amber: '#F59E0B',
+  brown: 'brown'
+}
+
+const ColorSwatches = ({
+  color,
+  selectedColor,
+  onClick,
+  outOfStock = false,
+  swatchSize = 28
+}: ColorSwatchesProps) => {
   return (
     <label
       key={color}
       aria-label={color}
       className={clsx(
-        'flex size-[56.67px] items-center justify-center',
+        swatchSize < 28
+          ? `w-[${swatchSize * 2}px] h-[${swatchSize * 2}px]`
+          : 'w-[56.67px] h-[56.67px]',
+        'flex items-center justify-center',
         'rounded-full',
         outOfStock ? 'pointer-events-none' : 'cursor-pointer'
       )}>
@@ -21,7 +46,7 @@ const ColorSwatches = ({ color, selectedColor, onClick, outOfStock }: ColorSwatc
         type='radio'
         name='color-choice'
         value={color}
-        checked={selectedColor === color}
+        checked={selectedColor === color || selectedColor.includes(color)}
         className='sr-only'
         aria-checked={selectedColor === color}
         onChange={() => onClick(color)}
@@ -30,23 +55,24 @@ const ColorSwatches = ({ color, selectedColor, onClick, outOfStock }: ColorSwatc
       <div
         aria-hidden='true'
         className={clsx(
-          'flex items-center justify-center',
-          'size-[38px] rounded-full',
-          selectedColor === color
+          'flex items-center justify-center border border-neutral-200',
+          `rounded-full`,
+          swatchSize < 28 ? `w-[${swatchSize}px] h-[${swatchSize}px]` : 'w-[38px] h-[38px]',
+          selectedColor === color || selectedColor.includes(color)
             ? 'border-2 border-white outline outline-1 outline-indigo-600'
             : [
                 'hover:border-2 hover:border-indigo-200',
                 'focus:border-none focus:outline-none focus:ring-[9.33px] focus:ring-indigo-600/[.12]'
               ]
         )}
-        style={{ backgroundColor: color }}
-        tabIndex={selectedColor === color || outOfStock ? -1 : 0}
+        style={{ backgroundColor: color, width: swatchSize, height: swatchSize }}
+        tabIndex={selectedColor === color || selectedColor.includes(color) || outOfStock ? -1 : 0}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             onClick(color)
           }
         }}>
-        {selectedColor === color && !outOfStock && (
+        {(selectedColor === color || selectedColor.includes(color)) && !outOfStock && (
           <svg
             width='28'
             height='28'

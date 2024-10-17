@@ -3,7 +3,7 @@ import ProductGallery from '@components/e-commerce/ProductGallery'
 import ProductDescription from './ProductDescription'
 import ProductControls from './ProductControls'
 import Accordian from './Accordian'
-import { useProductContext, ProductContextProviderValueType } from './ProductContext'
+import { useProductContext, ProductContextProviderValueType } from './contexts/ProductContext'
 import ProductSpecifications from './ProductSpecifications'
 
 export default function ProductDetails() {

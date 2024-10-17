@@ -1,6 +1,6 @@
 import ProductDetails from '../../../components/e-commerce/ProductDetails'
 import { ProductDetailsType } from '../../../types/ProductDetailsType'
-import ProductContextProvider from '@components/e-commerce/ProductContext'
+import ProductContextProvider from '@components/e-commerce/contexts/ProductContext'
 import ProductGrid from '@components/ProductGrid'
 import StoreFront from '@components/e-commerce/pages/StoreFront'
 
@@ -12,10 +12,9 @@ export default async function LandingPage() {
 
   return (
     <>
-      <ProductContextProvider data={data}>
-        {/* <ProductGrid /> */}
-        <StoreFront />
-      </ProductContextProvider>
+      {/* <ProductContextProvider data={null}> */}
+      <StoreFront />
+      {/* </ProductContextProvider> */}
     </>
   )
 }

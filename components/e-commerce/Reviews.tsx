@@ -1,12 +1,12 @@
 import Modal from './Modal'
 import RatingsDisplay from './RatingsDisplay'
-import { useProductContext } from './ProductContext'
-import { ProductContextProviderValueType } from './ProductContext'
+import { useProductContext } from './contexts/ProductContext'
+import { ProductContextProviderValueType } from './contexts/ProductContext'
 import { useState } from 'react'
 import useFetchReviews from '../../utils/useFetchReviews'
 import { RiChatSmile3Line } from 'react-icons/ri'
 import { RatingCount, UserReview, Rating } from '../../types/ProductRatingType'
-import { Stars } from './ProductDescription'
+import Stars from './Stars'
 import clsx from 'clsx'
 
 interface ReviewsProps {
@@ -106,6 +106,13 @@ export default function Reviews({ setShowModal }: ReviewsProps) {
     </>
   )
 }
+export const ratingMap: Record<string, string> = {
+  1: 'Poor',
+  2: 'Below Average',
+  3: 'Average',
+  4: 'Good',
+  5: 'Excellent'
+}
 
 function RatingPercentageBreakdown({
   counts,
@@ -118,13 +125,6 @@ function RatingPercentageBreakdown({
   setProductReviews: (rating?: Rating | null | undefined, page?: number | null | undefined) => void
   setSelectedRating: (rating: Rating | null) => void
 }) {
-  const ratingMap: Record<string, string> = {
-    1: 'Poor',
-    2: 'Below Average',
-    3: 'Average',
-    4: 'Good',
-    5: 'Excellent'
-  }
   const colorMap: Record<string, string> = {
     1: '#DC2626',
     2: '#EAB308',

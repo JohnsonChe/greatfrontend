@@ -16,7 +16,7 @@ export default function QuantitySelection({
   return (
     <div className='mt-8'>
       <span className='text-neutral-500'>Quantity</span>
-      <div className='flex gap-4 bg-neutral-50 border-neutral-200 border rounded-lg w-fit mt-4 px-[6px]'>
+      <div className='flex gap-4 bg-neutral-50 border-neutral-200 border rounded-lg w-fit mt-4 px-[6px] min-w-[110px]'>
         <button
           onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
           className={clsx(
@@ -25,7 +25,9 @@ export default function QuantitySelection({
           disabled={isDisabled}>
           -
         </button>
-        <label className='py-[6px] px-[20px]'>{isDisabled ? '0' : selectedQuantity}</label>
+        <label className='py-[6px] flex flex-grow justify-center'>
+          {isDisabled ? '0' : selectedQuantity}
+        </label>
         <button
           onClick={() => setQuantity((prev) => (prev !== currentItemStock ? prev + 1 : prev))}
           disabled={isDisabled}

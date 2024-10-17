@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Stars } from './ProductDescription'
+import Stars from './Stars'
 
 interface RatingsDisplayProps {
   rating: number

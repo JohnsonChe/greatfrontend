@@ -1,4 +1,3 @@
-import Star from '@components/e-commerce/ui/Star'
 import Reviews from './Reviews'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
@@ -53,26 +52,6 @@ export default function ProductDescription({
         <p className='text-neutral-600'>{description}</p>
       </div>
       {showReviews && createPortal(<Reviews setShowModal={setShowReviews} />, document.body)}
-    </div>
-  )
-}
-
-export function Stars({ rating, className = '' }: { rating: number; className: string }) {
-  const [wholeNumber, decimal] = rating.toString().split('.')
-  const hasHalfStar = Number(decimal) >= 5
-  const starsNotFilled = 5 - (Number(wholeNumber) + (hasHalfStar ? 1 : 0))
-
-  return (
-    <div className='flex'>
-      {Array.from({ length: Number(wholeNumber) }).map((_, index) => (
-        <Star filled={true} halfFilled={false} key={index} className={className} />
-      ))}
-
-      {hasHalfStar && <Star filled={false} halfFilled={true} className={className} />}
-
-      {Array.from({ length: starsNotFilled }).map((_, index) => (
-        <Star filled={false} halfFilled={false} key={index} className={className} />
-      ))}
     </div>
   )
 }

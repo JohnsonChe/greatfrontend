@@ -11,7 +11,7 @@ export default function ShoppingCart({ items = 0 }: ShoppingCartProps) {
       <span
         className={[
           items > 0
-            ? 'absolute right-[3.0rem] md:right-[4rem] lg:right-[6.5rem] lg:top-[1.7rem] top-[1.8rem] h-[18px] w-[18px] text-xs text-center font-semibold bg-purple text-white rounded-full flex items-center justify-center'
+            ? 'absolute right-[3.0rem] lg:right-[5.5rem] lg:top-[0.9rem] top-[1.1rem] h-[18px] w-[18px] text-xs text-center font-semibold bg-purple text-white rounded-full flex items-center justify-center'
             : 'hidden'
         ].join(' ')}>
         {items}

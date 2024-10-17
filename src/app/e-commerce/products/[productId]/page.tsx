@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import ProductDetails from '@components/e-commerce/ProductDetails'
 import { useEffect, useState } from 'react'
 import { ProductDetailsType } from '../../../../../types/ProductDetailsType'
-import ProductContextProvider from '@components/e-commerce/ProductContext'
+import ProductContextProvider from '@components/e-commerce/contexts/ProductContext'
 
 type ProductPageProps = {
   params: {

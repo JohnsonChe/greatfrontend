@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 export default function Hero() {
   return (
     <div className='flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-8'>
@@ -10,9 +11,11 @@ export default function Hero() {
           This year, our new summer collection will be your haven from the world&apos;s harsh
           elements.
         </p>
-        <button className='py-3 px-[37.75px] md:px-16 md:py-4 bg-indigo-700 text-white rounded-lg mt-8 md:text-lg hover:bg-indigo-800'>
-          Shop now
-        </button>
+        <Link href='/e-commerce/products'>
+          <button className='py-3 px-[37.75px] md:px-16 md:py-4 bg-indigo-700 text-white rounded-lg mt-8 md:text-lg hover:bg-indigo-800'>
+            Shop now
+          </button>
+        </Link>
       </div>
       <div>
         <Image

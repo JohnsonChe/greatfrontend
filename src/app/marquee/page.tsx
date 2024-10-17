@@ -14,7 +14,7 @@ export default function Marquee() {
     <div className='flex overflow-hidden'>
       <div className='flex animate-marquee'>
         {logos.map((logo, index) => (
-          <img key={index} src={logo} className='block mx-4 min-w-[218px]' />
+          <img key={index} src={logo} alt='company logo' className='block mx-4 min-w-[218px]' />
         ))}
       </div>
       <div className='flex animate-marquee'>
@@ -24,7 +24,7 @@ export default function Marquee() {
       </div>
       <div className='flex animate-marquee'>
         {logos.map((logo, index) => (
-          <img key={index} src={logo} className='block mx-4 min-w-[218px]' />
+          <img key={index} src={logo} alt='company logos' className='block mx-4 min-w-[218px]' />
         ))}
       </div>
     </div>

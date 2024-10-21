@@ -8,7 +8,7 @@ import {
   size,
   info
 } from '../../../types/ProductDetailsType'
-import { useCartContext, cartItemType, CartContextType } from '../CartContext'
+import { useCartContext, CartItemType, CartContextType } from './CartContext'
 
 interface ProductContextProviderProps {
   data: ProductDetailsType | null
@@ -73,7 +73,7 @@ export default function ProductContextProvider({ data, children }: ProductContex
   const imagesBySelectedColor = useMemo(() => {
     setSelectedPicture(0)
     return images.filter((image) => image.color === selectedColor)
-  }, [selectedColor])
+  }, [selectedColor, images])
 
   const {
     list_price: currItemListPrice,
@@ -84,7 +84,7 @@ export default function ProductContextProvider({ data, children }: ProductContex
   } = useMemo(
     () =>
       inventory.filter(({ color, size }) => color === selectedColor && size === selectedSize)[0],
-    [selectedSize, selectedColor]
+    [selectedSize, selectedColor, inventory]
   )
 
   const sizesInStock = useMemo(
@@ -106,19 +106,22 @@ export default function ProductContextProvider({ data, children }: ProductContex
         }
         return colorsInStock
       }, []),
-    [selectedSize]
+    [selectedSize, inventory]
   )
 
   const addToCartHandler = () => {
-    const cartItem: cartItemType = {
-      productId,
+    const cartItem: CartItemType = {
+      product: data,
       sku: currentSelectedSku,
-      quantity: selectedQuantity
+      quantity: selectedQuantity,
+      size: selectedSize,
+      color: selectedColor
     }
     setCartItems((prev) => {
       const newCartList = [...prev]
       const existingCartItemIndex = newCartList.findIndex(
-        (item) => item.sku === cartItem.sku && item.productId === cartItem.productId
+        (item) =>
+          item.sku === cartItem.sku && item.product?.product_id === cartItem?.product?.product_id
       )
 
       if (existingCartItemIndex >= 0) {
@@ -126,7 +129,7 @@ export default function ProductContextProvider({ data, children }: ProductContex
       } else {
         newCartList.push(cartItem)
       }
-
+      localStorage.setItem('cart', JSON.stringify(newCartList))
       return newCartList
     })
   }

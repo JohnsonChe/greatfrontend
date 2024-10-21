@@ -25,7 +25,9 @@ export default function Reviews({ setShowModal }: ReviewsProps) {
 
   return (
     <>
-      <Modal setShowModal={setShowModal}>
+      <Modal
+        setShowModal={setShowModal}
+        className='xs:min-w-[200px] xs:min-h-[552px] sm:max-w-[375px] sm:min-h-[652px]  md:max-w-[522px] md:min-h-[864px] lg:min-w-[55rem] xl:min-w-[75rem] lg:min-h-[608px]'>
         {reviews ? (
           <div className='px-6 overflow-auto lg:flex lg:gap-8'>
             <div className='flex flex-col gap-6 lg:w-96 self-stretch'>

@@ -36,7 +36,7 @@ export default function Collections() {
                 filterOptionHandler('collection', collection.collection_id)
               }}
               key={index}>
-              <div>
+              <div className='flex flex-col'>
                 <label className='font-extralight text-sm'>{collection.name}</label>
                 <label>{collection.description}</label>
               </div>

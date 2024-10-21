@@ -5,18 +5,24 @@ interface QuantitySelectionProps {
   setQuantity: React.Dispatch<React.SetStateAction<number>>
   currentItemStock: number
   selectedQuantity: number
+  showTitle?: boolean
 }
 
 export default function QuantitySelection({
   setQuantity,
   currentItemStock,
-  selectedQuantity
+  selectedQuantity,
+  showTitle = true
 }: QuantitySelectionProps) {
   const isDisabled = useMemo(() => currentItemStock === 0, [currentItemStock])
   return (
-    <div className='mt-8'>
-      <span className='text-neutral-500'>Quantity</span>
-      <div className='flex gap-4 bg-neutral-50 border-neutral-200 border rounded-lg w-fit mt-4 px-[6px] min-w-[110px]'>
+    <div className={clsx(showTitle && 'mt-8')}>
+      {showTitle && <span className='text-neutral-500'>Quantity</span>}
+      <div
+        className={clsx(
+          showTitle && 'mt-4',
+          'flex gap-4 bg-neutral-50 border-neutral-200 border rounded-lg w-fit px-[6px] min-w-[110px]'
+        )}>
         <button
           onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
           className={clsx(

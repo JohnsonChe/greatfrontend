@@ -2,6 +2,7 @@ import Reviews from './Reviews'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import RatingsDisplay from './RatingsDisplay'
+import Price from './Price'
 
 interface ProductDescription {
   name: string
@@ -27,14 +28,12 @@ export default function ProductDescription({
   return (
     <div>
       <h2 className='font-semibold text-3xl'>{name}</h2>
-      <div className='mt-5'>
-        <span className='font-medium text-3xl text-neutral-600'>${salePrice}</span>
-        {discountPercentage && (
-          <span className='line-through font-medium text-lg text-neutral-400 ml-2'>
-            ${listPrice}
-          </span>
-        )}
-      </div>
+      <Price
+        className='mt-5'
+        discountPercentage={discountPercentage}
+        listPrice={listPrice}
+        salePrice={salePrice}
+      />
       {discountPercentage && (
         <div className='mt-3'>
           <span className='text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-1'>

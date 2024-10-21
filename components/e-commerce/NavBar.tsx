@@ -3,7 +3,7 @@ import ShoppingCart from '@components/e-commerce/ShoppingCart'
 import { RiMenuLine, RiCloseLine } from 'react-icons/ri'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useCartContext, CartContextType } from './CartContext'
+import { useCartContext, CartContextType } from './contexts/CartContext'
 import Link from 'next/link'
 
 const links = [
@@ -66,5 +66,5 @@ export default function NavBar() {
 }
 
 const NavMenuDrawer = ({ onClick }: { onClick: React.MouseEventHandler<SVGElement> }) => {
-  return <RiMenuLine className='size-6' onClick={onClick} />
+  return <RiMenuLine className='size-6 cursor-pointer' onClick={onClick} />
 }

@@ -1,6 +1,6 @@
 import NavBar from '../../../components/e-commerce/NavBar'
 import Footer from '@components/e-commerce/Footer'
-import CartContextProvider from '@components/e-commerce/CartContext'
+import CartContextProvider from '@components/e-commerce/contexts/CartContext'
 import ProductFilterContextProvider from '@components/e-commerce/contexts/ProductFilterContext'
 import clsx from 'clsx'
 

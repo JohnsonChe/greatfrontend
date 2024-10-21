@@ -1,12 +1,12 @@
 import { RiShoppingBag3Line } from 'react-icons/ri'
-
+import Link from 'next/link'
 interface ShoppingCartProps {
   items?: number
 }
 
 export default function ShoppingCart({ items = 0 }: ShoppingCartProps) {
   return (
-    <>
+    <Link href='/e-commerce/cart'>
       <RiShoppingBag3Line className='size-6' />
       <span
         className={[
@@ -16,6 +16,6 @@ export default function ShoppingCart({ items = 0 }: ShoppingCartProps) {
         ].join(' ')}>
         {items}
       </span>
-    </>
+    </Link>
   )
 }

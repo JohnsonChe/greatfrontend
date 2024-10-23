@@ -7,9 +7,10 @@ export default function useFetchProducts() {
   const [error, setError] = useState<unknown>()
   const baseUrl = 'https://www.greatfrontend.com/api/projects/challenges/e-commerce/products'
 
-  const fetchProducts = useCallback(async (queryString?: string) => {
+  const fetchProducts = useCallback(async (queryString: string = '') => {
     try {
-      const response = await fetch(baseUrl + '?' + queryString)
+      const fetchUrl = queryString === '' ? baseUrl : baseUrl + '?' + queryString
+      const response = await fetch(fetchUrl)
       const data = await response.json()
 
       if (data) {

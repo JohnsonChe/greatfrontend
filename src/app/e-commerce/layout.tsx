@@ -13,7 +13,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <ProductFilterContextProvider>
         <CartContextProvider>
           <NavBar />
-          <main className='flex-1 flex flex-col px-4 py-12 w-full lg:w-[1024px] xl:w-[1418px] lg:p-24'>
+          <main className='flex-1 flex flex-col px-4 py-12 w-full lg:w-[1024px] xl:w-[1418px] lg:px-24 lg:pb-24'>
             {children}
           </main>
           <Footer />

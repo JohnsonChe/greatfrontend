@@ -4,6 +4,7 @@ import { ProductDetailsType } from '../../../types/ProductDetailsType'
 import { Coupon } from '../../../utils/useCouponDiscount'
 import useCouponDiscount from '../../../utils/useCouponDiscount'
 import getFromLocalStorage from '../../../utils/getFromLocalStorage'
+
 export interface CartItemType {
   product: ProductDetailsType | null
   sku: string
@@ -22,6 +23,10 @@ export interface CartContextType {
   coupons: Coupon[]
   checkCoupon: (coupon: string) => void
   removeCoupon: (couponCode: string) => void
+  triggerSubmit: () => void
+  setTriggerSubmit: React.Dispatch<React.SetStateAction<() => void>>
+  selectedDeliveryMethod: 'standard' | 'express'
+  setDeliveryMethod: React.Dispatch<React.SetStateAction<'standard' | 'express'>>
 }
 
 export interface LocalStorageCart {
@@ -40,6 +45,9 @@ export default function CartContextProvider({ children }: { children: React.Reac
     localStorageCartItems?.cartItems || []
   )
   const [coupons, setCoupons] = useState<Coupon[]>(localStorageCartItems?.coupons || [])
+  const [triggerSubmit, setTriggerSubmit] = useState<() => void>(() => {})
+  const [selectedDeliveryMethod, setDeliveryMethod] = useState<'standard' | 'express'>('standard')
+
   const cartSubtotal = itemsInCart.reduce((total, item) => {
     const product = item.product?.inventory.find((inventoryItem) => item.sku === inventoryItem.sku)
     if (product) {
@@ -47,14 +55,15 @@ export default function CartContextProvider({ children }: { children: React.Reac
     }
     return total
   }, 0)
-  const cartTotal = coupons.reduce((total, coupon) => {
-    if (coupon.discount_percentage) {
-      const discountAmount = (total * coupon.discount_percentage) / 100
-      return (total -= discountAmount)
-    }
+  const cartTotal =
+    coupons.reduce((total, coupon) => {
+      if (coupon.discount_percentage) {
+        const discountAmount = (total * coupon.discount_percentage) / 100
+        return (total -= discountAmount)
+      }
 
-    return (total -= coupon.discount_amount)
-  }, cartSubtotal)
+      return (total -= coupon.discount_amount)
+    }, cartSubtotal) + (selectedDeliveryMethod === 'express' ? 15 : 0)
 
   const checkCoupon = async (coupon: string) => {
     if (coupons.some((couponCode) => couponCode.coupon_code === coupon)) {
@@ -112,7 +121,7 @@ export default function CartContextProvider({ children }: { children: React.Reac
 
   useEffect(() => {
     const storedCart = getFromLocalStorage('cart')
-
+    console.log('storedCart', storedCart)
     if (!storedCart) {
       setLocalStorageCartItems(null)
       return
@@ -121,6 +130,8 @@ export default function CartContextProvider({ children }: { children: React.Reac
     try {
       const parsedCart = JSON.parse(storedCart) as LocalStorageCart
       setLocalStorageCartItems(parsedCart)
+      setCartItems(parsedCart.cartItems || [])
+      setCoupons(parsedCart.coupons || [])
     } catch (error) {
       console.error('Error parsing cart data from localStorage:', error)
       setLocalStorageCartItems(null)
@@ -138,7 +149,11 @@ export default function CartContextProvider({ children }: { children: React.Reac
       updateCartItemQuantity,
       coupons,
       checkCoupon,
-      removeCoupon
+      removeCoupon,
+      triggerSubmit,
+      setTriggerSubmit,
+      selectedDeliveryMethod,
+      setDeliveryMethod
     }),
     [
       itemsInCart,
@@ -150,7 +165,11 @@ export default function CartContextProvider({ children }: { children: React.Reac
       updateCartItemQuantity,
       coupons,
       checkCoupon,
-      removeCoupon
+      removeCoupon,
+      triggerSubmit,
+      setTriggerSubmit,
+      selectedDeliveryMethod,
+      setDeliveryMethod
     ]
   )
 

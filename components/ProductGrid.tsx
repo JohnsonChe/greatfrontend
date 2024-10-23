@@ -109,7 +109,8 @@ const colorMap: ColorMap = {
   green: 'bg-green',
   white: 'bg-white',
   brown: 'bg-brown',
-  red: 'bg-[#DC2626]'
+  red: 'bg-[#DC2626]',
+  pink: 'bg-pink-300'
 }
 
 const ProductCard = ({ product }: { product: ProductDetailsType }) => {

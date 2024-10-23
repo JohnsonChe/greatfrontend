@@ -1,4 +1,13 @@
+'use client'
+import Link from 'next/link'
+import {
+  useProductFilterContext,
+  ProductFilterContextProviderValueType
+} from './contexts/ProductFilterContext'
+
 export default function FooterNav() {
+  const { filterOptionHandler } = useProductFilterContext() as ProductFilterContextProviderValueType
+  const productLink = '/e-commerce/products'
   return (
     <div className='flex flex-col lg:flex-row lg:justify-between gap-8 lg:w-full'>
       <div className='flex flex-col gap-6 md:w-[320px]'>
@@ -16,13 +25,19 @@ export default function FooterNav() {
           <h4 className='text-neutral-600'>SHOP CATEGORIES</h4>
           <ul className='flex flex-col gap-3 mt-4'>
             <li>
-              <a href=''>Unisex</a>
+              <Link href={productLink} onClick={() => filterOptionHandler('category', 'unisex')}>
+                Unisex
+              </Link>
             </li>
             <li>
-              <a href=''>Women</a>
+              <Link href={productLink} onClick={() => filterOptionHandler('category', 'women')}>
+                Women
+              </Link>
             </li>
             <li>
-              <a href=''>Men</a>
+              <Link href={productLink} onClick={() => filterOptionHandler('category', 'men')}>
+                Men
+              </Link>
             </li>
           </ul>
         </div>
@@ -30,16 +45,24 @@ export default function FooterNav() {
           <h4 className='text-neutral-600'>SHOP COLLECTIONS</h4>
           <ul className='flex flex-col gap-3 mt-4'>
             <li>
-              <a href=''>Latest Arrivals</a>
+              <Link href={productLink} onClick={() => filterOptionHandler('collection', 'latest')}>
+                Latest Arrivals
+              </Link>
             </li>
             <li>
-              <a href=''>Urban Oasis</a>
+              <Link href={productLink} onClick={() => filterOptionHandler('collection', 'urban')}>
+                Urban Oasis
+              </Link>
             </li>
             <li>
-              <a href=''>Cozy Comfort</a>
+              <Link href={productLink} onClick={() => filterOptionHandler('collection', 'cozy')}>
+                Cozy Comfort
+              </Link>
             </li>
             <li>
-              <a href=''>Fresh Fusion</a>
+              <Link href={productLink} onClick={() => filterOptionHandler('collection', 'fresh')}>
+                Fresh Fusion
+              </Link>
             </li>
           </ul>
         </div>

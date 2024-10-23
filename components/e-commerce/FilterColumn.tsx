@@ -53,7 +53,7 @@ const CATEGORIES: Category[] = [
       { value: '#4338CA', name: 'blue' },
       { value: '#CA8A04', name: 'yellow' },
       { value: '#D2B08A', name: 'biege' },
-      { value: '#DB2777', name: 'pink' }
+      { value: 'pink', name: 'pink' }
     ],
     optionType: 'color-swatch'
   },

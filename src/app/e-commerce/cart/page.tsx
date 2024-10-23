@@ -9,10 +9,10 @@ import QuantitySelection from '@components/e-commerce/QuantitySelection'
 import EmptyShoppingCart from '@components/e-commerce/pages/EmptyShoppingCart'
 import { useEffect, useState } from 'react'
 import Price from '@components/e-commerce/Price'
-import { RiCouponLine, RiCloseLine } from 'react-icons/ri'
 import Link from 'next/link'
 import Modal from '@components/e-commerce/Modal'
 import { createPortal } from 'react-dom'
+import CartTotal from '@components/e-commerce/CartTotal'
 
 export default function Cart() {
   const { itemsInCart, removeCartItem } = useCartContext() as CartContextType
@@ -30,7 +30,7 @@ export default function Cart() {
             <CartItem product={item} removeProduct={removeCartItem} key={index} />
           ))}
         </div>
-        <CartTotal />
+        <CartTotal cartType='checkout' />
       </div>
     </>
   )
@@ -143,125 +143,5 @@ function CartItem({
       </div>
       {showConfirmModal && createPortal(renderConfirmModal(sku), document.body)}
     </div>
-  )
-}
-
-function CartTotal() {
-  const { cartSubtotal, cartTotal } = useCartContext() as CartContextType
-  return (
-    <div className='p-4 border border-neutral-200 rounded-lg max-h-fit'>
-      <div className='pb-8 border-b border-neutral-300 border-dashed flex flex-col gap-[34px]'>
-        <h2 className='text-2xl'>Order Summary</h2>
-        <div className='flex flex-col gap-[18px]'>
-          <span className='flex justify-between'>
-            <label>Subtotal</label>
-            <label>${cartSubtotal}</label>
-          </span>
-          <span className='flex justify-between'>
-            <label>Shipping</label>
-            <label>FREE</label>
-          </span>
-          <ActiveCoupons />
-          <CouponCode />
-        </div>
-      </div>
-      <span className='flex justify-between my-8'>
-        <label className='text-2xl'>Total</label>
-        <label className='text-4xl font-semibold'>${cartTotal.toFixed(2)}</label>
-      </span>
-      <button className='py-4 px-[102.5px] text-white rounded-lg w-full bg-indigo-700'>
-        Checkout
-      </button>
-    </div>
-  )
-}
-
-function ActiveCoupons() {
-  const { coupons } = useCartContext() as CartContextType
-
-  return (
-    <>
-      {coupons.length > 0 &&
-        coupons.map(({ coupon_code, discount_amount, discount_percentage }, index) => {
-          return (
-            <span className='flex justify-between' key={index}>
-              <label className='px-2.5 py-1 border border-indigo-200 bg-indigo-50 rounded-full font-light text-indigo-700'>
-                {coupon_code}
-              </label>
-              {discount_amount && <label>- ${discount_amount?.toFixed(2)}</label>}
-              {discount_percentage && <label>- {discount_percentage}%</label>}
-            </span>
-          )
-        })}
-    </>
-  )
-}
-
-function CouponCode() {
-  const [showCouponInput, setShowCouponInput] = useState<boolean>(false)
-  const [couponCode, setCouponCode] = useState<string>('')
-  const { checkCoupon, coupons, removeCoupon, couponError } = useCartContext() as CartContextType
-
-  const handleCouponSumbit = () => {
-    checkCoupon(couponCode)
-    setCouponCode('')
-  }
-
-  const renderError = () => <span className='text-red-600 mt-1.5'>{couponError as string}</span>
-
-  if (showCouponInput) {
-    return (
-      <span>
-        {coupons.length > 0}
-        <label className='font-light text-sm text-neutral-700'>Coupon code</label>
-        <span className='flex items-center lg:justify-center'>
-          <div className='flex gap-2 w-full'>
-            <input
-              type='text'
-              className='py-2.5 px-[21px] bg-neutral-50 border border-neutral-200 rounded-lg font-light w-full'
-              placeholder='Enter coupon code'
-              onChange={(e) => setCouponCode(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleCouponSumbit()
-                }
-              }}
-              value={couponCode}></input>
-            <button
-              className='py-2.5 px-[21px] rounded-lg border border-neutral-200 shadow-sm'
-              onClick={handleCouponSumbit}>
-              Apply
-            </button>
-          </div>
-        </span>
-        {couponError ? (
-          renderError()
-        ) : (
-          <span className='flex gap-2 mt-2'>
-            {coupons.map(({ coupon_code }, index) => {
-              return (
-                <span
-                  key={index}
-                  className='bg-[#E5E7EB] py-1 px-2.5 w-fit rounded-lg flex items-center gap-1'>
-                  {coupon_code}{' '}
-                  <button onClick={() => removeCoupon(coupon_code)}>
-                    <RiCloseLine className='size-5' />
-                  </button>
-                </span>
-              )
-            })}
-          </span>
-        )}
-      </span>
-    )
-  }
-
-  return (
-    <span onClick={() => setShowCouponInput(true)} className='cursor-pointer'>
-      <label className='text-indigo-700 flex items-center justify-end font-medium cursor-pointer'>
-        <RiCouponLine className='size-5 mr-2' />
-        Add coupon code
-      </label>
-    </span>
   )
 }

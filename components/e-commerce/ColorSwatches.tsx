@@ -1,8 +1,8 @@
 import clsx from 'clsx'
-import { ColorMap } from '../../types/Product'
+import { ColorKey, ColorMap } from '../../types/Product'
 
 interface ColorSwatchesProps {
-  color: string
+  color: ColorKey | string
   selectedColor: string[] | string
   onClick: (color: string) => void
   outOfStock?: boolean

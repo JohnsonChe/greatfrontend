@@ -1,11 +1,11 @@
 import Amex from './Amex';
-import MasterCard from './MasterCard';
+import MasterCard from './Mastercard'
 import Visa from './Visa';
-import Card from './Card';
+import Card from './Card'
 import { CardNetworkName } from '../../../../utils/getCreditCardNetwork';
 
 
-const NETWORKS: Record<CardNetworkName, React.FC<{ className: string }>> = {
+const NETWORKS: Record<CardNetworkName, React.FC<{ className?: string }>> = {
 	'Amex': Amex,
 	'Mastercard': MasterCard,
 	'Visa': Visa,

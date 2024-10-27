@@ -5,6 +5,7 @@ import {
   ProductFilterContextProviderValueType,
   useProductFilterContext
 } from './contexts/ProductFilterContext'
+import { ColorKey } from '../../types/Product'
 
 type Category = {
   title: string
@@ -15,7 +16,7 @@ type Category = {
 
 type CategoryOptions = {
   value: string
-  name?: string
+  name?: ColorKey | string
 }
 
 const CATEGORIES: Category[] = [
@@ -154,7 +155,7 @@ function FilterSection({
             {options.map((color, index) => (
               <ColorSwatches
                 key={color + id + index}
-                color={color.value}
+                color={color.name as ColorKey}
                 selectedColor={filterOptions?.color}
                 onClick={() => filterOptionHandler(id, color.name!)}
                 swatchSize={18}

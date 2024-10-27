@@ -25,7 +25,7 @@ const ProductGrid = ({ pageType = 'view', className = '' }: ProductGridProps) =>
   const isPageTypeViewOnly = pageType === 'view'
   const { products, isFilterPanelOpen, setOpenFilterPanel, clearFilterOptionHandler } =
     useProductFilterContext() as ProductFilterContextProviderValueType
-  console.log('products', products)
+
   return (
     <>
       <div className={'flex flex-col w-full bg-white ' + className}>
@@ -54,7 +54,7 @@ const ProductGrid = ({ pageType = 'view', className = '' }: ProductGridProps) =>
             !products || products.data?.length === 0
               ? 'md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 w-full h-full'
               : isPageTypeViewOnly
-              ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+              ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:grid-rows-2'
               : 'md:grid-cols-2 lg:grid-cols-3'
           )}>
           {products && products.data?.length > 0 ? (

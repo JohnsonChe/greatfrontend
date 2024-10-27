@@ -23,13 +23,15 @@ export default function CartTotal({
         </button>
       </Link>
     ) : (
-      <button
-        className='py-4 px-[45px] text-white rounded-lg w-full bg-indigo-700'
-        onClick={() => {
-          triggerSubmit()
-        }}>
-        Confirm order
-      </button>
+      <Link href='/e-commerce/checkout/success'>
+        <button
+          className='py-4 px-[45px] text-white rounded-lg w-full bg-indigo-700'
+          onClick={() => {
+            triggerSubmit()
+          }}>
+          Confirm order
+        </button>
+      </Link>
     )
 
   return (
@@ -37,7 +39,7 @@ export default function CartTotal({
       <div className='pb-8 border-b border-neutral-300 border-dashed flex flex-col gap-[34px]'>
         <h2 className='text-2xl'>Order Summary</h2>
         <div className='flex flex-col gap-[18px]'>
-          {children}
+          <span className='border-b border-neutral-300'>{children}</span>
           <span className='flex justify-between'>
             <label>Subtotal</label>
             <label>${cartSubtotal.toFixed(2)}</label>

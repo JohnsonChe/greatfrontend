@@ -2,22 +2,20 @@
 import CartTotal from './CartTotal'
 import { RiCheckboxCircleFill } from 'react-icons/ri'
 import { useRef, useEffect, useState } from 'react'
-import {
-  FormProvider,
-  FieldValues,
-  useForm,
-  UseFormRegister,
-  useFormContext,
-  FieldError
-} from 'react-hook-form'
+import { FormProvider, FieldValues, useForm, useFormContext, FieldError } from 'react-hook-form'
 import clsx from 'clsx'
-import { CartContextType, CartItemType, useCartContext } from './contexts/CartContext'
+import {
+  CartContextType,
+  CartItemType,
+  ConfirmedOrder,
+  useCartContext
+} from './contexts/CartContext'
 import { RiArrowDownSLine } from 'react-icons/ri'
 import {
   applyValidation,
-  validateZip,
+  validateEmail,
   validateExpiryDate,
-  validateEmail
+  validateZip
 } from '../../utils/normalizeInputs'
 
 import {
@@ -28,10 +26,10 @@ import {
   normalizeZip,
   normalizeCity
 } from '../../utils/inputMasks'
-
-import Price from './Price'
-import { image, InventoryItem } from '../../types/ProductDetailsType'
+import CartItemReadOnly from './CartItemReadOnly'
 import { NETWORKS } from '@components/e-commerce/ui/PaymentCard/index'
+
+const checkoutForm = [ContactInformation, ShippingInformation, DeliveryMethod, PaymentMethod]
 
 function CheckoutInformationListItem({ children }: { children: React.ReactNode }) {
   return (
@@ -43,10 +41,12 @@ function CheckoutInformationListItem({ children }: { children: React.ReactNode }
 
 export default function UserCheckoutInformation() {
   const methods = useForm({ mode: 'onBlur' })
-  const { setTriggerSubmit, itemsInCart, cartTotal } = useCartContext() as CartContextType
+  const { setTriggerSubmit, itemsInCart, cartTotal, setConfirmedOrder } =
+    useCartContext() as CartContextType
   const formRef = useRef<HTMLFormElement | null>(null)
 
   const submitOrder = (data: FieldValues) => {
+    setConfirmedOrder(data as ConfirmedOrder)
     console.log('Form Submitted', data)
   }
   useEffect(() => {
@@ -62,18 +62,11 @@ export default function UserCheckoutInformation() {
       <FormProvider {...methods}>
         <div className='flex-grow w-full'>
           <form ref={formRef} onSubmit={methods.handleSubmit(submitOrder)}>
-            <CheckoutInformationListItem>
-              <ContactInformation register={methods.register} />
-            </CheckoutInformationListItem>
-            <CheckoutInformationListItem>
-              <ShippingInformation register={methods.register} />
-            </CheckoutInformationListItem>
-            <CheckoutInformationListItem>
-              <DeliveryMethod />
-            </CheckoutInformationListItem>
-            <CheckoutInformationListItem>
-              <PaymentMethod register={methods.register} />
-            </CheckoutInformationListItem>
+            {checkoutForm.map((Component, index) => (
+              <CheckoutInformationListItem key={index}>
+                <Component />
+              </CheckoutInformationListItem>
+            ))}
           </form>
         </div>
         <CartTotal cartType='confirm-order' className='w-full'>
@@ -99,11 +92,10 @@ function InputLabelField({
   labelText: string
   fieldName: string
   register: any
-  CreditCardIcon?: any
+  CreditCardIcon?: React.FC<{ className?: string }>
 }) {
   const {
-    formState: { errors },
-    getValues
+    formState: { errors }
   } = useFormContext()
   const inputFieldError: FieldError = errors?.[fieldName] as FieldError
   return (
@@ -123,14 +115,19 @@ function InputLabelField({
             CreditCardIcon ? 'pl-[50px] pr-3.5' : 'px-3.5'
           )}
         />
-        {CreditCardIcon}
+        {CreditCardIcon && (
+          <span className='pointer-events-none absolute inset-y-[4px] left-3'>
+            {<CreditCardIcon className='size-8' />}
+          </span>
+        )}
         {inputFieldError && <p className='text-red-600'>{inputFieldError?.message!}</p>}
       </span>
     </div>
   )
 }
 
-function ContactInformation({ register }: { register: UseFormRegister<FieldValues> }) {
+function ContactInformation() {
+  const { register } = useFormContext()
   return (
     <div className='flex flex-col gap-6'>
       <h2 className='text-neutral-600 font-normal text-lg'>Contact Information</h2>
@@ -152,7 +149,8 @@ function ContactInformation({ register }: { register: UseFormRegister<FieldValue
   )
 }
 
-function ShippingInformation({ register }: { register: UseFormRegister<FieldValues> }) {
+function ShippingInformation() {
+  const { register } = useFormContext()
   const {
     formState: { errors }
   } = useFormContext()
@@ -173,7 +171,7 @@ function ShippingInformation({ register }: { register: UseFormRegister<FieldValu
           </select>
           <RiArrowDownSLine className='pointer-events-none size-8 absolute inset-y-[34px] right-0 flex items-center px-2 text-neutral-400' />
         </span>
-        <span className='flex flex-col gap-4'>
+        <span className='flex flex-col lg:flex-row gap-4'>
           <InputLabelField
             register={{ ...register('shippingFirstName', { required: 'First name is required' }) }}
             inputType='text'
@@ -190,7 +188,7 @@ function ShippingInformation({ register }: { register: UseFormRegister<FieldValu
           />
         </span>
         <span>
-          <AddressField register={register} />
+          <AddressField />
         </span>
         <div className='flex flex-col gap-6 justify-stretch md:flex-row'>
           <span className='w-full'>
@@ -244,9 +242,10 @@ function ShippingInformation({ register }: { register: UseFormRegister<FieldValu
   )
 }
 
-function AddressField({ register }: { register: UseFormRegister<FieldValues> }) {
+function AddressField() {
   const {
-    formState: { errors }
+    formState: { errors },
+    register
   } = useFormContext()
 
   return (
@@ -308,15 +307,16 @@ function DeliveryMethod() {
   }) => (
     <button
       type='button'
+      tabIndex={0}
       className={clsx(
-        'w-full rounded-lg p-4 focus:outline-none',
+        'w-full rounded-lg p-4 focus:outline-none focus:border-2 focus:border-indigo-50',
         selectedDeliveryMethod === value
           ? 'border-2 border-indigo-700'
           : 'border border-neutral-200'
       )}
       onClick={() => handleDeliveryMethodChange(value)}>
       <div className='cursor-pointer'>
-        <div className='flex h-14 justify-start cursor-pointer'>
+        <div className='flex h-14 justify-start cursor-pointer lg:text-[0.92rem] xl:text-base'>
           <div className='flex flex-col text-left flex-grow cursor-pointer'>
             <label className='text-neutral-900'>{title}</label>
             <label className='font-extralight text-neutral-600'>{subtext}</label>
@@ -325,7 +325,9 @@ function DeliveryMethod() {
             <RiCheckboxCircleFill className='text-indigo-500 size-5' />
           )}
         </div>
-        <label className='flex justify-start text-neutral-900'>{priceText}</label>
+        <label className='flex justify-start text-neutral-900 lg:text-[0.92rem] xl:text-base'>
+          {priceText}
+        </label>
       </div>
     </button>
   )
@@ -351,11 +353,9 @@ function DeliveryMethod() {
   )
 }
 
-function PaymentMethod({ register }: { register: UseFormRegister<FieldValues> }) {
-  const [creditCardIcon, setCreditCardIcon] = useState<JSX.Element>(() => {
-    const Icon = NETWORKS['Card']
-    return <Icon className='size-8 pointer-events-none absolute inset-y-[4px] left-3' />
-  })
+function PaymentMethod() {
+  const { register } = useFormContext()
+  const { creditCardIcon, setCreditCardIcon } = useCartContext() as CartContextType
 
   return (
     <div className='flex flex-col gap-6'>
@@ -408,59 +408,6 @@ function PaymentMethod({ register }: { register: UseFormRegister<FieldValues> })
             fieldName='cc-cvv'
           />
         </div>
-      </div>
-    </div>
-  )
-}
-
-function CartItemReadOnly({ product }: { product: CartItemType }) {
-  const { product: productDetails, sku, quantity, color, size } = product
-  const { image_url: productImageUrl }: image =
-    productDetails?.images.find((image) => image.color === color) || productDetails?.images[0]!
-  const colorCapitalized = color[0].toUpperCase() + color.slice(1, color.length)
-  const {
-    discount,
-    discount_percentage,
-    sale_price: salePrice,
-    list_price: listPrice,
-    stock
-  }: InventoryItem = productDetails?.inventory.find((item) => item.sku === sku)!
-  const colorStringMap: Record<string, string> = {
-    xs: 'Extra Small',
-    sm: 'Small',
-    md: 'Medium',
-    lg: 'Large',
-    xl: 'Extra Large'
-  }
-
-  return (
-    <div className='flex flex-col md:items-start md:flex-row xs:gap-4 md:gap-8 md:min-h-[92px] first:pt-0 py-8 border-b border-dashed border-neutral-300 last:border-none'>
-      <div className='flex gap-6 flex-grow'>
-        <img
-          src={productImageUrl}
-          alt='product image'
-          className={
-            'min-w-[56px] md:min-w-[80px] md:min-h-[80px] lg:min-w-[80px] lg:min-h-[80px] xl:min-w-[80px] h-[56px] object-cover rounded-lg'
-          }
-        />
-        <div className='flex flex-col gap-2 w-full'>
-          <span className='text-neutral-900 text-xl font-medium'>{productDetails?.name}</span>
-          <span className='text-neutral-600'>
-            {size ? `${colorCapitalized} • ${colorStringMap[size] || size}` : `${colorCapitalized}`}
-          </span>
-          <span className='text-neutral-600'>Quantity: {quantity}</span>
-        </div>
-      </div>
-
-      <div className='flex justify-between items-center'>
-        <div className='flex items-center gap-4'></div>
-        <Price
-          discountPercentage={discount_percentage}
-          listPrice={listPrice}
-          salePrice={salePrice}
-          size={18}
-          className='flex flex-col gap-2'
-        />
       </div>
     </div>
   )

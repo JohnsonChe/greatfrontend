@@ -66,7 +66,6 @@ export default function ProductFilterContextProvider({
   }
 
   useEffect(() => {
-    console.log('filterOptions', filterOptions)
     fetchProducts(queryString)
   }, [filterOptions])
 

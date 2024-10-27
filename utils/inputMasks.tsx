@@ -4,9 +4,9 @@ import getCreditCardNetwork, { CardNetworkName } from './getCreditCardNetwork'
 export function applyMask(
   normalizeFunction: (
     value: string,
-    setCreditCardIcon?: React.Dispatch<React.SetStateAction<JSX.Element>>
+    setCreditCardIcon?: React.Dispatch<React.SetStateAction<React.FC<{ className?: string }>>>
   ) => string,
-  setCreditCardIcon?: React.Dispatch<React.SetStateAction<JSX.Element>>
+  setCreditCardIcon?: React.Dispatch<React.SetStateAction<React.FC<{ className?: string }>>>
 ) {
   return (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -17,18 +17,17 @@ export function applyMask(
 
 export function normalizeCardNumber(
   value: string,
-  setCreditCardIcon?: React.Dispatch<React.SetStateAction<JSX.Element>>
+  setCreditCardIcon?: React.Dispatch<React.SetStateAction<React.FC<{ className?: string }>>>
 ) {
-  const iconClasses = 'size-8 pointer-events-none absolute inset-y-[4px] left-3'
   if (setCreditCardIcon) {
     if (value.length === 0) {
       const DefaultCardIcon = NETWORKS['Card']
-      setCreditCardIcon(<DefaultCardIcon className={iconClasses} />)
+      setCreditCardIcon(() => DefaultCardIcon)
     }
     if (value.length >= 4 && value.length < 20) {
       const cardNetwork: CardNetworkName = getCreditCardNetwork(value)
       const IconComponent = NETWORKS[cardNetwork]
-      setCreditCardIcon(<IconComponent className={iconClasses} />)
+      setCreditCardIcon(() => IconComponent)
     }
   }
   return (
@@ -59,5 +58,5 @@ export function normalizeZip(value: string) {
 }
 
 export function normalizeCity(value: string) {
-  return value.replace(/^[A-Za-z]+$/, '')
+  return value.replace(/[^A-Za-z]/g, '')
 }

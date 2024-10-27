@@ -4,6 +4,7 @@ import { ProductDetailsType } from '../../../types/ProductDetailsType'
 import { Coupon } from '../../../utils/useCouponDiscount'
 import useCouponDiscount from '../../../utils/useCouponDiscount'
 import getFromLocalStorage from '../../../utils/getFromLocalStorage'
+import { NETWORKS } from '../ui/PaymentCard'
 
 export interface CartItemType {
   product: ProductDetailsType | null
@@ -27,11 +28,39 @@ export interface CartContextType {
   setTriggerSubmit: React.Dispatch<React.SetStateAction<() => void>>
   selectedDeliveryMethod: 'standard' | 'express'
   setDeliveryMethod: React.Dispatch<React.SetStateAction<'standard' | 'express'>>
+  confirmedOrder: ConfirmedOrder | null
+  setConfirmedOrder: React.Dispatch<React.SetStateAction<ConfirmedOrder | null>>
+  creditCardIcon: React.FC<{ className?: string }>
+  setCreditCardIcon: React.Dispatch<
+    React.SetStateAction<
+      React.FC<{
+        className?: string
+      }>
+    >
+  >
 }
 
 export interface LocalStorageCart {
   cartItems: CartItemType[]
   coupons: Coupon[]
+}
+
+export interface ConfirmedOrder {
+  cartTotal: number
+  'cc-card': string
+  'cc-cvv': string
+  'cc-expiry': string
+  'cc-name': string
+  deliveryMethod: 'express' | 'standard'
+  email: string
+  shippingAddressLineOne: string
+  shippingAddressLineTwo: string
+  shippingCity: string
+  shippingCountry: string
+  shippingFirstName: string
+  shippingLastName: string
+  shippingState: string
+  shippingZip: string
 }
 
 const CartContext = createContext<CartContextType | []>([])
@@ -47,6 +76,10 @@ export default function CartContextProvider({ children }: { children: React.Reac
   const [coupons, setCoupons] = useState<Coupon[]>(localStorageCartItems?.coupons || [])
   const [triggerSubmit, setTriggerSubmit] = useState<() => void>(() => {})
   const [selectedDeliveryMethod, setDeliveryMethod] = useState<'standard' | 'express'>('standard')
+  const [creditCardIcon, setCreditCardIcon] = useState<React.FC<{ className?: string }>>(
+    () => NETWORKS['Card']
+  )
+  const [confirmedOrder, setConfirmedOrder] = useState<ConfirmedOrder | null>(null)
 
   const cartSubtotal = itemsInCart.reduce((total, item) => {
     const product = item.product?.inventory.find((inventoryItem) => item.sku === inventoryItem.sku)
@@ -121,7 +154,7 @@ export default function CartContextProvider({ children }: { children: React.Reac
 
   useEffect(() => {
     const storedCart = getFromLocalStorage('cart')
-    console.log('storedCart', storedCart)
+
     if (!storedCart) {
       setLocalStorageCartItems(null)
       return
@@ -153,7 +186,11 @@ export default function CartContextProvider({ children }: { children: React.Reac
       triggerSubmit,
       setTriggerSubmit,
       selectedDeliveryMethod,
-      setDeliveryMethod
+      setDeliveryMethod,
+      confirmedOrder,
+      setConfirmedOrder,
+      setCreditCardIcon,
+      creditCardIcon
     }),
     [
       itemsInCart,
@@ -169,7 +206,11 @@ export default function CartContextProvider({ children }: { children: React.Reac
       triggerSubmit,
       setTriggerSubmit,
       selectedDeliveryMethod,
-      setDeliveryMethod
+      setDeliveryMethod,
+      confirmedOrder,
+      setConfirmedOrder,
+      setCreditCardIcon,
+      creditCardIcon
     ]
   )
 

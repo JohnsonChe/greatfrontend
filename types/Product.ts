@@ -1,4 +1,4 @@
-type ColorKey = 'black' | 'orange' | 'beige' | 'yellow' | 'blue' | 'green' | 'white' | 'brown';
+export type ColorKey = 'black' | 'orange' | 'beige' | 'yellow' | 'blue' | 'green' | 'white' | 'brown';
 
 export type ColorMap = Record<string, string>;
 

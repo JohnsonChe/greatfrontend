@@ -201,6 +201,7 @@ export default function ProductSpecifications() {
             height={100}
             className='lg:max-w-[367px]'
             layout='responsive'
+            priority
           />
           <div>
             <h5 className='text-2xl'>{title}</h5>

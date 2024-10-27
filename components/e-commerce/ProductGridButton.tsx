@@ -39,33 +39,39 @@ export default function ProductGridButton({ buttonType = 'view' }: ProductGridBu
         Sort By
         <RiArrowDownSLine className='size-5' />
       </button>
-      <div
-        className={clsx(
-          isSortByOpen
-            ? 'w-[228px] h-[228px] shadow-2xl rounded-lg p-2 absolute top-[3.6875rem] left-[-7.25rem] z-[1000] bg-white flex flex-col justify-center border border-neutral-200'
-            : 'hidden'
-        )}>
-        <ul>
-          {sortByOptions.map(({ title, value, direction }, index) => {
-            const currentDirection = filterOptions['direction'][0]
-            const currentSort = filterOptions['sort'][0]
-            const isActive =
-              (currentDirection === direction && currentSort === 'price') ||
-              (currentSort === value && currentSort !== 'price')
-            return (
-              <li
-                key={index}
-                onClick={() => sortByHandler(value, direction)}
-                className={clsx(
-                  'p-2 font-light cursor-pointer hover:bg-neutral-50',
-                  isActive ? 'text-indigo-700' : 'text-neutral-600'
-                )}>
-                {title}
-              </li>
-            )
-          })}
-        </ul>
-      </div>
+
+      {isSortByOpen && (
+        <>
+          <div
+            className='fixed inset-0 bg-transparent z-[999]'
+            onClick={() => setSortByOpen(false)}></div>
+          <div
+            className={clsx(
+              'w-[228px] h-[228px] shadow-2xl rounded-lg p-2 absolute top-[3.6875rem] left-[-7.25rem] z-[1000] bg-white flex flex-col justify-center border border-neutral-200'
+            )}>
+            <ul>
+              {sortByOptions.map(({ title, value, direction }, index) => {
+                const currentDirection = filterOptions['direction'][0]
+                const currentSort = filterOptions['sort'][0]
+                const isActive =
+                  (currentDirection === direction && currentSort === 'price') ||
+                  (currentSort === value && currentSort !== 'price')
+                return (
+                  <li
+                    key={index}
+                    onClick={() => sortByHandler(value, direction)}
+                    className={clsx(
+                      'p-2 font-light cursor-pointer hover:bg-neutral-50',
+                      isActive ? 'text-indigo-700' : 'text-neutral-600'
+                    )}>
+                    {title}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        </>
+      )}
     </div>
   )
 }

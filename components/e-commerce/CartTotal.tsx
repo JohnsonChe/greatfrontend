@@ -2,6 +2,9 @@ import { useCartContext, CartContextType } from './contexts/CartContext'
 import Link from 'next/link'
 import ActiveCoupons from './ActiveCoupons'
 import CouponCode from './CouponCode'
+import { useFormContext } from 'react-hook-form'
+import { RiLockLine } from 'react-icons/ri'
+import clsx from 'clsx'
 
 export default function CartTotal({
   cartType,
@@ -14,6 +17,8 @@ export default function CartTotal({
 }) {
   const { cartSubtotal, cartTotal, triggerSubmit, selectedDeliveryMethod } =
     useCartContext() as CartContextType
+  const form = useFormContext()
+  const isButtonDisabled = !form?.formState?.isValid
 
   const submitButton =
     cartType === 'checkout' ? (
@@ -25,10 +30,14 @@ export default function CartTotal({
     ) : (
       <Link href='/e-commerce/checkout/success'>
         <button
-          className='py-4 px-[45px] text-white rounded-lg w-full bg-indigo-700'
+          className='py-4 px-[45px] text-white rounded-lg w-full bg-indigo-700 disabled:bg-neutral-100 disabled:text-neutral-400 flex items-center justify-center gap-1.5'
+          disabled={isButtonDisabled}
           onClick={() => {
             triggerSubmit()
           }}>
+          <RiLockLine
+            className={clsx('size-4', isButtonDisabled ? 'text-neutral-400' : 'text-white')}
+          />
           Confirm order
         </button>
       </Link>

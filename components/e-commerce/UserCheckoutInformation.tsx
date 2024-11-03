@@ -27,7 +27,6 @@ import {
   normalizeCity
 } from '../../utils/inputMasks'
 import CartItemReadOnly from './CartItemReadOnly'
-import { NETWORKS } from '@components/e-commerce/ui/PaymentCard/index'
 
 const checkoutForm = [ContactInformation, ShippingInformation, DeliveryMethod, PaymentMethod]
 
@@ -45,8 +44,16 @@ export default function UserCheckoutInformation() {
     useCartContext() as CartContextType
   const formRef = useRef<HTMLFormElement | null>(null)
 
-  const submitOrder = (data: FieldValues) => {
+  const submitOrder = async (data: FieldValues) => {
     setConfirmedOrder(data as ConfirmedOrder)
+    try {
+      const res = await fetch('/api/submit-order', {
+        method: 'POST',
+        body: JSON.stringify({ formData: data, itemsInCart })
+      })
+      const submittedOrder = await res.json()
+      console.log('submittedOrder', submittedOrder)
+    } catch {}
     console.log('Form Submitted', data)
   }
   useEffect(() => {

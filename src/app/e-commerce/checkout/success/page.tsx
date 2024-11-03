@@ -1,13 +1,17 @@
 'use client'
-import CartTotal from '@components/e-commerce/CartTotal'
-import { useCartContext, CartContextType } from '@components/e-commerce/contexts/CartContext'
+import {
+  useCartContext,
+  CartContextType,
+  ConfirmedOrder
+} from '@components/e-commerce/contexts/CartContext'
 import CartItemReadOnly from '@components/e-commerce/CartItemReadOnly'
 import CopyToClipboard from '@components/e-commerce/CopyToClipboard'
 import ActiveCoupons from '@components/e-commerce/ActiveCoupons'
 import { RiArrowRightLine } from 'react-icons/ri'
 import Link from 'next/link'
+import { withConfirmedOrder } from '../../../../../utils/withConfirmedOrder'
 
-export default function SuccessPage() {
+function SuccessPage() {
   return (
     <div className='flex flex-col lg:flex-row gap-8 lg:items-start lg:min-h-min'>
       <CartImage />
@@ -15,6 +19,8 @@ export default function SuccessPage() {
     </div>
   )
 }
+
+export default withConfirmedOrder(SuccessPage)
 
 function CartImage() {
   // Use different image sizes
@@ -29,8 +35,9 @@ function CartImage() {
 }
 
 function ConfirmedCartSummary() {
-  const { itemsInCart, cartSubtotal, selectedDeliveryMethod, cartTotal } =
-    useCartContext() as CartContextType
+  const { confirmedOrder } = useCartContext() as CartContextType
+  const { cartItems, cartSubTotal, cartTotal, deliveryMethod } =
+    (confirmedOrder as ConfirmedOrder) ?? {}
 
   return (
     <div className='w-full flex flex-col gap-12 flex-grow'>
@@ -43,7 +50,7 @@ function ConfirmedCartSummary() {
       </div>
       <OrderNumber />
       <div>
-        {itemsInCart.map((item, index) => (
+        {cartItems.map((item, index) => (
           <CartItemReadOnly
             product={item}
             key={index}
@@ -54,11 +61,11 @@ function ConfirmedCartSummary() {
         <div className='flex flex-col gap-6 py-8'>
           <span className='flex justify-between'>
             <label>Subtotal</label>
-            <label>${cartSubtotal.toFixed(2)}</label>
+            <label>${cartSubTotal.toFixed(2)}</label>
           </span>
           <span className='flex justify-between'>
             <label>Shipping</label>
-            <label>{selectedDeliveryMethod === 'express' ? '$15.00' : 'FREE'}</label>
+            <label>{deliveryMethod === 'express' ? '$15.00' : 'FREE'}</label>
           </span>
           <ActiveCoupons listStyle={'text'} />
         </div>

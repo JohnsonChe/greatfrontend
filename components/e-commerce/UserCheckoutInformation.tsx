@@ -40,12 +40,17 @@ function CheckoutInformationListItem({ children }: { children: React.ReactNode }
 
 export default function UserCheckoutInformation() {
   const methods = useForm({ mode: 'onBlur' })
-  const { setTriggerSubmit, itemsInCart, cartTotal, setConfirmedOrder } =
+  const { setTriggerSubmit, itemsInCart, cartTotal, cartSubtotal, setConfirmedOrder, clearCart } =
     useCartContext() as CartContextType
   const formRef = useRef<HTMLFormElement | null>(null)
 
   const submitOrder = async (data: FieldValues) => {
-    setConfirmedOrder(data as ConfirmedOrder)
+    setConfirmedOrder({
+      ...data,
+      cartItems: itemsInCart,
+      cartSubTotal: cartSubtotal
+    } as ConfirmedOrder)
+    clearCart()
     try {
       const res = await fetch('/api/submit-order', {
         method: 'POST',

@@ -38,6 +38,7 @@ export interface CartContextType {
       }>
     >
   >
+  clearCart: () => void
 }
 
 export interface LocalStorageCart {
@@ -46,6 +47,8 @@ export interface LocalStorageCart {
 }
 
 export interface ConfirmedOrder {
+  cartItems: CartItemType[]
+  cartSubTotal: number
   cartTotal: number
   'cc-card': string
   'cc-cvv': string
@@ -152,6 +155,13 @@ export default function CartContextProvider({ children }: { children: React.Reac
     })
   }
 
+  const clearCart = () => {
+    setCartItems([])
+    setCoupons([])
+    setDeliveryMethod('standard')
+    localStorage.setItem('cart', '')
+  }
+
   useEffect(() => {
     const storedCart = getFromLocalStorage('cart')
 
@@ -190,7 +200,8 @@ export default function CartContextProvider({ children }: { children: React.Reac
       confirmedOrder,
       setConfirmedOrder,
       setCreditCardIcon,
-      creditCardIcon
+      creditCardIcon,
+      clearCart
     }),
     [
       itemsInCart,
@@ -210,7 +221,8 @@ export default function CartContextProvider({ children }: { children: React.Reac
       confirmedOrder,
       setConfirmedOrder,
       setCreditCardIcon,
-      creditCardIcon
+      creditCardIcon,
+      clearCart
     ]
   )
 

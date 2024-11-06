@@ -58,5 +58,5 @@ export function normalizeZip(value: string) {
 }
 
 export function normalizeCity(value: string) {
-  return value.replace(/[^A-Za-z]/g, '')
+  return value.replace(/[^A-Za-z\s]/g, '')
 }

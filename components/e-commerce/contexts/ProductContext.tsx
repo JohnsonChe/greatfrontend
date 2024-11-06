@@ -9,7 +9,7 @@ import {
   info
 } from '../../../types/ProductDetailsType'
 import { useCartContext, CartItemType, CartContextType } from './CartContext'
-
+import { useToast } from './ToastContext'
 interface ProductContextProviderProps {
   data: ProductDetailsType | null
   children: React.ReactNode
@@ -108,7 +108,7 @@ export default function ProductContextProvider({ data, children }: ProductContex
       }, []),
     [selectedSize, inventory]
   )
-
+  const toast = useToast()
   const addToCartHandler = () => {
     const cartItem: CartItemType = {
       product: data,
@@ -132,6 +132,7 @@ export default function ProductContextProvider({ data, children }: ProductContex
       localStorage.setItem('cart', JSON.stringify(newCartList))
       return newCartList
     })
+    toast.success('Added to cart!')
   }
 
   const value: ProductContextProviderValueType = useMemo(() => {

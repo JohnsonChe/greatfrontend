@@ -238,7 +238,7 @@ const Tabs = ({
             selectedTab === tab.value
               ? 'text-indigo-700 border-b-2 border-b-indigo-700'
               : 'text-neutral-600',
-            'pb-3 px-2 font-medium'
+            'pb-3 px-2 font-medium cursor-pointer hover:scale-105'
           )}>
           {tab.text}
         </span>

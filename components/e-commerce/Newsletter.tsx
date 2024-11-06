@@ -1,8 +1,12 @@
 'use client'
 import { useState } from 'react'
+import { CgSpinner } from 'react-icons/cg'
+import { useToastContext } from './contexts/ToastContext'
 
 export default function Newsletter() {
+  const { showToast } = useToastContext()
   const [email, setEmail] = useState<string>('')
+  const [isLoading, setLoading] = useState<boolean>(false)
   const [toggleErrorMsg, setToggleErrorMsg] = useState<boolean>(false)
 
   const validateEmailAddress = (userInputtedEmail: string) => {
@@ -16,6 +20,7 @@ export default function Newsletter() {
         throw new Error('Invalid Email Format')
       }
 
+      setLoading(true)
       const response = await fetch(
         'https://www.greatfrontend.com/api/projects/challenges/newsletter',
         {
@@ -33,11 +38,19 @@ export default function Newsletter() {
 
       if (message && message.includes('success')) {
         setToggleErrorMsg(false)
-        // toggle success toast
+
+        setTimeout(() => {
+          setLoading(false)
+        }, 1000)
+        showToast('success', 'Newsletter subscribed!')
       }
     } catch (e) {
       console.error(e)
       setToggleErrorMsg(true)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1300)
+      showToast('error', 'There was a problem, please try again')
     }
   }
   return (
@@ -69,8 +82,10 @@ export default function Newsletter() {
           )}
         </div>
         <button
-          className='border bg-indigo-700 text-white py-2.5 px-3.5 md:px-4 rounded-lg max-h-[46px] hover:bg-indigo-800'
-          onClick={subscribeNewsletterHandler}>
+          className='border bg-indigo-700 text-white py-2.5 px-3.5 md:px-4 rounded-lg max-h-[46px] hover:bg-indigo-800 flex items-center justify-center gap-1'
+          onClick={subscribeNewsletterHandler}
+          disabled={isLoading}>
+          {isLoading && <CgSpinner className='size-5 text-white animate-spin' />}
           Subscribe
         </button>
       </div>

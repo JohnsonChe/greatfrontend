@@ -23,24 +23,32 @@ export default function NavBar() {
   return (
     <nav className='flex w-full py-4.5 px-4 gap-4 items-center md:px-4 lg:px-24 lg:py-4 lg:gap-24 lg:w-[1024px] xl:px-24 xl:w-[1418px] sticky top-0'>
       <ol className='grow lg:flex-none'>
-        <a href='/e-commerce'>
-          <img
-            src='https://vaqybtnqyonvlwtskzmv.supabase.co/storage/v1/object/public/e-commerce-track-images/logo.svg'
-            alt="StyleNest's logo"></img>
-        </a>
+        <li>
+          <a href='/e-commerce'>
+            <img
+              src='https://vaqybtnqyonvlwtskzmv.supabase.co/storage/v1/object/public/e-commerce-track-images/logo.svg'
+              alt="StyleNest's logo"></img>
+          </a>
+        </li>
       </ol>
       <ol className='hidden lg:flex lg:grow lg:gap-8 text-grey'>
-        {links.map((link) => (
-          <Link href={link.href} key={link.href}>
-            {link.name}
-          </Link>
+        {links.map((link, index) => (
+          <li key={index}>
+            <Link href={link.href} className='hover:text-neutral-400'>
+              {link.name}
+            </Link>
+          </li>
         ))}
       </ol>
       <ol className='flex-none text-grey'>
-        <ShoppingCart items={itemsInCart.length} />
+        <li>
+          <ShoppingCart items={itemsInCart.length} />
+        </li>
       </ol>
       <ol className='flex-none lg:hidden text-grey'>
-        <NavMenuDrawer onClick={() => setDrawer(true)} />
+        <li>
+          <NavMenuDrawer onClick={() => setDrawer(true)} />
+        </li>
       </ol>
       {isDrawerOpen &&
         createPortal(

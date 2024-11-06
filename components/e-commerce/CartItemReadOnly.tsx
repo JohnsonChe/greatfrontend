@@ -41,6 +41,7 @@ export default function CartItemReadOnly({
       )}>
       <div className='flex gap-6 flex-grow'>
         <img
+          loading='lazy'
           src={productImageUrl}
           alt='product image'
           className={

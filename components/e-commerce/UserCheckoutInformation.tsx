@@ -27,6 +27,7 @@ import {
   normalizeCity
 } from '../../utils/inputMasks'
 import CartItemReadOnly from './CartItemReadOnly'
+import { useRouter } from 'next/navigation'
 
 const checkoutForm = [ContactInformation, ShippingInformation, DeliveryMethod, PaymentMethod]
 
@@ -39,10 +40,12 @@ function CheckoutInformationListItem({ children }: { children: React.ReactNode }
 }
 
 export default function UserCheckoutInformation() {
+  const router = useRouter()
   const methods = useForm({ mode: 'onBlur' })
   const { setTriggerSubmit, itemsInCart, cartTotal, cartSubtotal, setConfirmedOrder, clearCart } =
     useCartContext() as CartContextType
   const formRef = useRef<HTMLFormElement | null>(null)
+  const form = useFormContext()
 
   const submitOrder = async (data: FieldValues) => {
     setConfirmedOrder({
@@ -50,13 +53,13 @@ export default function UserCheckoutInformation() {
       cartItems: itemsInCart,
       cartSubTotal: cartSubtotal
     } as ConfirmedOrder)
-    clearCart()
     try {
       const res = await fetch('/api/submit-order', {
         method: 'POST',
         body: JSON.stringify({ formData: data, itemsInCart })
       })
       const submittedOrder = await res.json()
+      router.push('/e-commerce/checkout/success')
       console.log('submittedOrder', submittedOrder)
     } catch {}
     console.log('Form Submitted', data)
@@ -225,8 +228,11 @@ function ShippingInformation() {
                 errors?.['shippingState'] ? 'border-2 border-red-600' : 'border border-neutral-200'
               )}
               {...register('shippingState', { required: 'State is required' })}>
-              <option value=''>State</option>
-              <option value='New York'>NY</option>
+              {US_STATES.map((state, index) => (
+                <option value={state.value} key={index}>
+                  {state.display}
+                </option>
+              ))}
             </select>
             {errors?.['shippingState'] && (
               <p className='text-red-600'>{errors?.['shippingState']?.message as string}</p>
@@ -424,3 +430,57 @@ function PaymentMethod() {
     </div>
   )
 }
+
+const US_STATES = [
+  { value: '', display: 'State' },
+  { value: 'Alabama', display: 'AL' },
+  { value: 'Alaska', display: 'AK' },
+  { value: 'Arizona', display: 'AZ' },
+  { value: 'Arkansas', display: 'AR' },
+  { value: 'California', display: 'CA' },
+  { value: 'Colorado', display: 'CO' },
+  { value: 'Connecticut', display: 'CT' },
+  { value: 'Delaware', display: 'DE' },
+  { value: 'Florida', display: 'FL' },
+  { value: 'Georgia', display: 'GA' },
+  { value: 'Hawaii', display: 'HI' },
+  { value: 'Idaho', display: 'ID' },
+  { value: 'Illinois', display: 'IL' },
+  { value: 'Indiana', display: 'IN' },
+  { value: 'Iowa', display: 'IA' },
+  { value: 'Kansas', display: 'KS' },
+  { value: 'Kentucky', display: 'KY' },
+  { value: 'Louisiana', display: 'LA' },
+  { value: 'Maine', display: 'ME' },
+  { value: 'Maryland', display: 'MD' },
+  { value: 'Massachusetts', display: 'MA' },
+  { value: 'Michigan', display: 'MI' },
+  { value: 'Minnesota', display: 'MN' },
+  { value: 'Mississippi', display: 'MS' },
+  { value: 'Missouri', display: 'MO' },
+  { value: 'Montana', display: 'MT' },
+  { value: 'Nebraska', display: 'NE' },
+  { value: 'Nevada', display: 'NV' },
+  { value: 'New Hampshire', display: 'NH' },
+  { value: 'New Jersey', display: 'NJ' },
+  { value: 'New Mexico', display: 'NM' },
+  { value: 'New York', display: 'NY' },
+  { value: 'North Carolina', display: 'NC' },
+  { value: 'North Dakota', display: 'ND' },
+  { value: 'Ohio', display: 'OH' },
+  { value: 'Oklahoma', display: 'OK' },
+  { value: 'Oregon', display: 'OR' },
+  { value: 'Pennsylvania', display: 'PA' },
+  { value: 'Rhode Island', display: 'RI' },
+  { value: 'South Carolina', display: 'SC' },
+  { value: 'South Dakota', display: 'SD' },
+  { value: 'Tennessee', display: 'TN' },
+  { value: 'Texas', display: 'TX' },
+  { value: 'Utah', display: 'UT' },
+  { value: 'Vermont', display: 'VT' },
+  { value: 'Virginia', display: 'VA' },
+  { value: 'Washington', display: 'WA' },
+  { value: 'West Virginia', display: 'WV' },
+  { value: 'Wisconsin', display: 'WI' },
+  { value: 'Wyoming', display: 'WY' }
+]

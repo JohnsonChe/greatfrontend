@@ -8,6 +8,7 @@ import { RiChatSmile3Line } from 'react-icons/ri'
 import { RatingCount, UserReview, Rating } from '../../types/ProductRatingType'
 import Stars from './Stars'
 import clsx from 'clsx'
+import { CgSpinner } from 'react-icons/cg'
 
 interface ReviewsProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -102,7 +103,9 @@ export default function Reviews({ setShowModal }: ReviewsProps) {
             </div>
           </div>
         ) : (
-          <p>Loading reviews...</p>
+          <p className='px-6 m-auto flex justify-center items-center text-neutral-300'>
+            <CgSpinner className='size-16 animate-spin' />
+          </p>
         )}
       </Modal>
     </>

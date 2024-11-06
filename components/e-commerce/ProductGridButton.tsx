@@ -47,7 +47,7 @@ export default function ProductGridButton({ buttonType = 'view' }: ProductGridBu
             onClick={() => setSortByOpen(false)}></div>
           <div
             className={clsx(
-              'w-[228px] h-[228px] shadow-2xl rounded-lg p-2 absolute top-[3.6875rem] left-[-7.25rem] z-[1000] bg-white flex flex-col justify-center border border-neutral-200'
+              'w-[228px] h-[228px] shadow-2xl rounded-lg py-2 absolute top-[3.6875rem] left-[-7.25rem] z-[1000] bg-white flex flex-col justify-center border border-neutral-200'
             )}>
             <ul>
               {sortByOptions.map(({ title, value, direction }, index) => {
@@ -61,7 +61,7 @@ export default function ProductGridButton({ buttonType = 'view' }: ProductGridBu
                     key={index}
                     onClick={() => sortByHandler(value, direction)}
                     className={clsx(
-                      'p-2 font-light cursor-pointer hover:bg-neutral-50',
+                      'py-2 px-4 font-light cursor-pointer hover:bg-neutral-50',
                       isActive ? 'text-indigo-700' : 'text-neutral-600'
                     )}>
                     {title}

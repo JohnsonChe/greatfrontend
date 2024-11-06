@@ -1,9 +1,10 @@
 import { useCartContext, CartContextType } from './contexts/CartContext'
+import { useState } from 'react'
 import Link from 'next/link'
 import ActiveCoupons from './ActiveCoupons'
 import CouponCode from './CouponCode'
-import { useFormContext } from 'react-hook-form'
 import { RiLockLine } from 'react-icons/ri'
+import { CgSpinner } from 'react-icons/cg'
 import clsx from 'clsx'
 
 export default function CartTotal({
@@ -15,32 +16,37 @@ export default function CartTotal({
   children?: React.ReactNode
   className?: string
 }) {
+  const [submittingOrder, setSubmittingOrder] = useState<boolean>(false)
   const { cartSubtotal, cartTotal, triggerSubmit, selectedDeliveryMethod } =
     useCartContext() as CartContextType
-  const form = useFormContext()
-  const isButtonDisabled = !form?.formState?.isValid
 
   const submitButton =
     cartType === 'checkout' ? (
       <Link href='/e-commerce/checkout'>
-        <button className='py-4 px-[102.5px] text-white rounded-lg w-full bg-indigo-700'>
+        <button className='py-4 px-[102.5px] text-white rounded-lg w-full bg-indigo-700 hover:bg-indigo-800 active:bg-indigo-700'>
           Checkout
         </button>
       </Link>
     ) : (
-      <Link href='/e-commerce/checkout/success'>
-        <button
-          className='py-4 px-[45px] text-white rounded-lg w-full bg-indigo-700 disabled:bg-neutral-100 disabled:text-neutral-400 flex items-center justify-center gap-1.5'
-          disabled={isButtonDisabled}
-          onClick={() => {
+      <button
+        className={clsx(
+          'py-4 px-[45px] text-white rounded-lg w-full bg-indigo-700 disabled:bg-neutral-100 disabled:text-neutral-400 flex items-center justify-center gap-1.5 hover:bg-indigo-800 active:bg-indigo-700'
+        )}
+        disabled={submittingOrder}
+        onClick={() => {
+          setSubmittingOrder(true)
+          setTimeout(() => {
             triggerSubmit()
-          }}>
-          <RiLockLine
-            className={clsx('size-4', isButtonDisabled ? 'text-neutral-400' : 'text-white')}
-          />
-          Confirm order
-        </button>
-      </Link>
+            setSubmittingOrder(false)
+          }, 300)
+        }}>
+        {submittingOrder ? (
+          <CgSpinner className='size-5 text-neutral-500 animate-spin' />
+        ) : (
+          <RiLockLine className={clsx('size-4 text-white')} />
+        )}
+        Confirm order
+      </button>
     )
 
   return (

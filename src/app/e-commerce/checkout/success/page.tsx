@@ -10,8 +10,13 @@ import ActiveCoupons from '@components/e-commerce/ActiveCoupons'
 import { RiArrowRightLine } from 'react-icons/ri'
 import Link from 'next/link'
 import { withConfirmedOrder } from '../../../../../utils/withConfirmedOrder'
+import { useEffect } from 'react'
 
 function SuccessPage() {
+  const { clearCart } = useCartContext() as CartContextType
+  useEffect(() => {
+    clearCart()
+  }, [])
   return (
     <div className='flex flex-col lg:flex-row gap-8 lg:items-start lg:min-h-min'>
       <CartImage />

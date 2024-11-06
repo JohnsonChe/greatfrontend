@@ -1,5 +1,4 @@
 'use client'
-import { useState } from 'react'
 import Image from 'next/image'
 import { ColorMap } from '../types/Product'
 import Link from 'next/link'
@@ -124,7 +123,7 @@ const ProductCard = ({ product }: { product: ProductDetailsType }) => {
       <div className='h-[468px] w-full lg:w-full xl:w-full'>
         <div className='relative w-full h-[300px] mb-4 rounded-lg overflow-clip'>
           <Image
-            priority
+            loading='lazy'
             src={product.images[0].image_url!}
             alt='product-image'
             fill

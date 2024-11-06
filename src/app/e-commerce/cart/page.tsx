@@ -87,7 +87,10 @@ function CartItem({
             </button>
             <button
               className='bg-indigo-700 text-white py-2.5 px-[57.75px] rounded-lg'
-              onClick={() => removeProduct(sku)}>
+              onClick={() => {
+                removeProduct(sku)
+                setShowConfirmModal(false)
+              }}>
               Yes
             </button>
           </div>
